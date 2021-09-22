@@ -193,28 +193,6 @@ d$simpson <- alpha(pseq_norm, "gini_simpson")$diversity_gini_simpson
 hist(d$shannon)
 hist(d$simpson)
 
-ggplot(d, aes(x = Group, y = shannon)) + 
-  geom_boxplot()
-
-anova_result <- aov(shannon ~ Group, d)
-summary(anova_result)
-
-tukey_result <- HSD.test(anova_result, "Group", group = TRUE)
-print(tukey_result)
-
-group_data <- tukey_result$groups[order(rownames(tukey_result$groups)),]
-ggplot(d, aes(x = Group, y = shannon)) +
-  geom_text(data = data.frame(),
-            aes(x = factor(rownames(group_data), levels=c("Young", "Aged","yFMTiAged", "oFMTiAged")), y = max(d$shannon) + 1, label = group_data$groups),
-            col = 'black',
-            size = 10) +
-  geom_boxplot() +
-  ggtitle("Shannon") +
-  xlab("Group") +
-  ylab("Alpha diversity index")
-
-
-
 # create a list of pairwise comaprisons
 Group <- levels(d$Group) # get the variables
 
@@ -238,7 +216,7 @@ p1 <- ggboxplot(d, x = "Group", y = "shannon",
   xlab("Group") +
   ylab("Alpha diversity index")
 #Statistics
-p1 <- p1 + stat_compare_means(comparisons = Group.pairs)
+p1 <- p1 + p1 <- p1 + stat_compare_means(method = "anova", aes(label=..p.adj..), comparisons = Group.pairs)
 
 #Box plot
 p2 <- ggboxplot(d, x = "Group", y = "simpson",
@@ -248,7 +226,7 @@ p2 <- ggboxplot(d, x = "Group", y = "simpson",
   xlab("Group") +
   ylab("Alpha diversity index")
 #Statistics
-p2 <- p2 + stat_compare_means(comparisons = Group.pairs)
+p2 <- p2 + stat_compare_means(method = "anova", aes(label=..p.adj..), comparisons = Group.pairs)
 
 # group plots together
 grid.arrange(nrow = 1, p1, p2)
