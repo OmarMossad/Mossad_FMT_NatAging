@@ -216,7 +216,7 @@ p1 <- ggboxplot(d, x = "Group", y = "shannon",
   xlab("Group") +
   ylab("Alpha diversity index")
 #Statistics
-p1 <- p1 + p1 <- p1 + stat_compare_means(method = "anova", aes(label=..p.adj..), comparisons = Group.pairs)
+p1 <- p1 + stat_compare_means(aes(label=..p.adj..), comparisons = Group.pairs)
 
 #Box plot
 p2 <- ggboxplot(d, x = "Group", y = "simpson",
@@ -226,7 +226,7 @@ p2 <- ggboxplot(d, x = "Group", y = "simpson",
   xlab("Group") +
   ylab("Alpha diversity index")
 #Statistics
-p2 <- p2 + stat_compare_means(method = "anova", aes(label=..p.adj..), comparisons = Group.pairs)
+p2 <- p2 + stat_compare_means(aes(label=..p.adj..), comparisons = Group.pairs)
 
 # group plots together
 grid.arrange(nrow = 1, p1, p2)
